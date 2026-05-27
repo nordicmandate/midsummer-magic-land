@@ -12,12 +12,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A long Nordic weekend on the Åland Islands — 19–21 June 2026. Travel info, hiking trail, packing list and grocery wishes for the gang.",
+          "A long Nordic weekend on the Åland Islands — 19–21 June 2026. Duty-free runs, midsummer schnapps, and the bar list for the gang.",
       },
       { property: "og:title", content: "Midsummer 2026 · Åland Islands" },
       {
         property: "og:description",
-        content: "Three days of midsummer magic on the Åland archipelago.",
+        content: "Three days of midsummer schnapps, cold beer and quiet sea on the Åland archipelago.",
       },
       { property: "og:image", content: heroImg },
       { property: "og:type", content: "website" },
