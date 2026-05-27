@@ -53,7 +53,7 @@ function Nav() {
     <header className="absolute top-0 left-0 right-0 z-20">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 md:px-10">
         <a href="#top" className="font-display text-lg text-cream tracking-wide">
-          Knackilandia
+          Skogbergsholmen
           <span className="ml-2 text-cream/70">·</span>
           <span className="ml-2 text-sm text-cream/80">MMXXVI</span>
         </a>
@@ -121,7 +121,7 @@ function Details() {
   const items = [
     { label: "When", value: "19 — 21 June", sub: "Friday to Sunday" },
     { label: "Where", value: "Eckerö", sub: "Åland Islands, Finland" },
-    { label: "Basecamp", value: "Bodegan Gastro Pub", sub: "& the summer place" },
+    { label: "Basecamp", value: "Skogbergsholmen", sub: "Eckerö, Åland" },
     { label: "Vibe", value: "Slow & sun-soaked", sub: "Nordic nature, no rush" },
   ];
   return (
@@ -237,8 +237,8 @@ function Hiking() {
             Walk in, we'll meet you with the boat.
           </h2>
           <p className="mt-5 text-base leading-relaxed text-cream/85 md:text-lg">
-            From Bodegan, follow the path along the shoreline. It's an easy
-            stretch through pine forest and pink granite — call when you're close
+            From the cottage at Skogbergsholmen, follow the path along the shoreline.
+            It's an easy stretch through pine forest and pink granite — call when you're close
             and we'll pick you up from the rocks.
           </p>
           <a
@@ -382,7 +382,7 @@ type ListItem = {
   createdAt: number;
 };
 
-const STORAGE_KEY = "knackilandia.grocery.v1";
+const STORAGE_KEY = "skogbergsholmen.grocery.v1";
 
 function GroceryList() {
   const [items, setItems] = useState<ListItem[]>([]);
@@ -529,7 +529,7 @@ function Footer() {
   return (
     <footer className="border-t border-border bg-cream py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 text-sm text-muted-foreground md:flex-row md:px-10">
-        <p>Knackilandia · Midsummer 2026</p>
+        <p>Skogbergsholmen · Midsummer 2026</p>
         <p className="italic">Made with long light & cold water.</p>
       </div>
     </footer>
