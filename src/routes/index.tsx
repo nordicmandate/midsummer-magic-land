@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import heroImg from "@/assets/hero-aland.jpg";
 import poleImg from "@/assets/midsummer-pole.jpg";
 import cottageImg from "@/assets/summer-cottage.jpg";
@@ -11,12 +12,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A long Nordic weekend on the Åland Islands — 19–21 June 2026. Travel info, hiking trail, packing list and grocery wishes for the gang.",
+          "A long Nordic weekend on the Åland Islands — 19–21 June 2026. Duty-free runs, midsummer schnapps, and the bar list for the gang.",
       },
       { property: "og:title", content: "Midsummer 2026 · Åland Islands" },
       {
         property: "og:description",
-        content: "Three days of midsummer magic on the Åland archipelago.",
+        content: "Three days of midsummer schnapps, cold beer and quiet sea on the Åland archipelago.",
       },
       { property: "og:image", content: heroImg },
       { property: "og:type", content: "website" },
@@ -33,8 +34,9 @@ function Index() {
       <Details />
       <Travel />
       <Hiking />
+      <Bar />
       <Packing />
-      <Grocery />
+      <GroceryList />
       <Footer />
     </div>
   );
@@ -44,8 +46,8 @@ function Nav() {
   const links = [
     { href: "#details", label: "Details" },
     { href: "#travel", label: "Travel" },
-    { href: "#hiking", label: "Hiking" },
-    { href: "#packing", label: "Packing" },
+    { href: "#bar", label: "The Bar" },
+    { href: "#list", label: "Grocery list" },
   ];
   return (
     <header className="absolute top-0 left-0 right-0 z-20">
@@ -87,25 +89,26 @@ function Hero() {
         <div className="max-w-3xl">
           <p className="eyebrow text-mist">19 — 21 June 2026 · Eckerö, Åland</p>
           <h1 className="mt-5 text-5xl leading-[1.05] text-cream md:text-7xl lg:text-[5.5rem]">
-            A midsummer on the archipelago,
-            <em className="block font-normal italic text-mist">just for us.</em>
+            Schnapps, sea, and the longest day
+            <em className="block font-normal italic text-mist">of the year.</em>
           </h1>
           <p className="mt-6 max-w-xl text-base text-cream/85 md:text-lg">
-            Three slow days of long light, cold swims, warm sauna and the kind of
-            evenings that don't really end. Welcome to Knackilandia.
+            Three slow days on the archipelago, fuelled by ferry duty-free,
+            cold lagers in the sauna anteroom, and one too many toasts under a
+            sun that never quite sets.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
-              href="#travel"
+              href="#bar"
               className="rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
             >
-              How to get there
+              See the bar
             </a>
             <a
-              href="#details"
+              href="#list"
               className="rounded-full border border-cream/40 px-7 py-3 text-sm font-semibold text-cream transition hover:bg-cream/10"
             >
-              The plan
+              Add to the list
             </a>
           </div>
         </div>
@@ -307,25 +310,216 @@ function Packing() {
   );
 }
 
-function Grocery() {
+function Bar() {
+  const pours = [
+    {
+      name: "Midsummer schnapps",
+      detail: "Akvavit, ice-cold, served in tiny glasses with a song before each shot.",
+      tag: "Tradition",
+    },
+    {
+      name: "Duty-free gin & tonic",
+      detail: "Whatever bottle looked best on the Eckerö Line shelf, with proper tonic.",
+      tag: "Sundowner",
+    },
+    {
+      name: "Cold Åland lager",
+      detail: "Stallhagen on tap-temperature, straight from the sea-chilled crate.",
+      tag: "All day",
+    },
+    {
+      name: "Strawberry spritz",
+      detail: "Local strawberries, dry white, a splash of soda. For the slower hours.",
+      tag: "Afternoon",
+    },
+    {
+      name: "Sauna beer",
+      detail: "The one between the second and third round. Non-negotiable.",
+      tag: "Sacred",
+    },
+    {
+      name: "Nightcap whisky",
+      detail: "On the rocks, on the rocks. Bring your favourite bottle.",
+      tag: "After midnight",
+    },
+  ];
   return (
-    <section id="grocery" className="relative bg-moss py-24 text-cream md:py-32">
-      <div className="mx-auto max-w-3xl px-6 text-center md:px-10">
+    <section id="bar" className="relative bg-bark py-24 text-cream md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="max-w-2xl">
+          <p className="eyebrow text-mist">The bar</p>
+          <h2 className="mt-4 text-4xl md:text-5xl">
+            What we'll be pouring.
+          </h2>
+          <p className="mt-6 text-base leading-relaxed text-cream/80 md:text-lg">
+            The duty-free shop on the ferry is half the reason we do this. Stock
+            up on the way over — here's roughly what the weekend tastes like.
+          </p>
+        </div>
+
+        <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl bg-cream/10 md:grid-cols-2 lg:grid-cols-3">
+          {pours.map((p) => (
+            <li key={p.name} className="bg-bark p-8">
+              <p className="eyebrow text-mist">{p.tag}</p>
+              <h3 className="mt-3 font-display text-2xl text-cream">{p.name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-cream/70">{p.detail}</p>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-12 text-sm italic text-cream/60">
+          Drink water between rounds. The sun won't set, but you might.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+type ListItem = {
+  id: string;
+  text: string;
+  author: string;
+  createdAt: number;
+};
+
+const STORAGE_KEY = "knackilandia.grocery.v1";
+
+function GroceryList() {
+  const [items, setItems] = useState<ListItem[]>([]);
+  const [text, setText] = useState("");
+  const [author, setAuthor] = useState("");
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setItems(JSON.parse(raw));
+      const savedName = localStorage.getItem(STORAGE_KEY + ".name");
+      if (savedName) setAuthor(savedName);
+    } catch {
+      // ignore
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // ignore
+    }
+  }, [items, hydrated]);
+
+  function addItem(e: React.FormEvent) {
+    e.preventDefault();
+    const trimmed = text.trim().slice(0, 80);
+    const who = author.trim().slice(0, 24) || "Anonymous";
+    if (!trimmed) return;
+    setItems((prev) => [
+      { id: crypto.randomUUID(), text: trimmed, author: who, createdAt: Date.now() },
+      ...prev,
+    ]);
+    setText("");
+    try {
+      localStorage.setItem(STORAGE_KEY + ".name", who);
+    } catch {
+      // ignore
+    }
+  }
+
+  function removeItem(id: string) {
+    setItems((prev) => prev.filter((i) => i.id !== id));
+  }
+
+  return (
+    <section id="list" className="relative bg-moss py-24 text-cream md:py-32">
+      <div className="mx-auto max-w-3xl px-6 md:px-10">
         <p className="eyebrow text-mist">Friday morning haul</p>
         <h2 className="mt-4 text-4xl md:text-5xl">
-          Anything you can't midsummer without?
+          Add what you can't midsummer without.
         </h2>
         <p className="mt-6 text-base leading-relaxed text-cream/90 md:text-lg">
-          We'll do the big grocery run on Friday morning. Drop your wishes in the
-          group chat — pickled herring, fresh strawberries, that one specific
-          cheese — and we'll make sure it's on the table.
+          Pickled herring, fresh strawberries, that one specific cheese, an
+          extra bottle of akvavit — drop it on the list and we'll grab it on
+          the Friday run.
         </p>
-        <a
-          href="#top"
-          className="mt-10 inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
+
+        <form
+          onSubmit={addItem}
+          className="mt-10 rounded-2xl bg-cream p-5 text-bark shadow-lg md:p-6"
         >
-          Back to the top
-        </a>
+          <div className="grid gap-3 md:grid-cols-[1fr_auto]">
+            <div className="grid gap-3 sm:grid-cols-[160px_1fr]">
+              <input
+                type="text"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                maxLength={24}
+                placeholder="Your name"
+                aria-label="Your name"
+                className="w-full rounded-xl border border-bark/15 bg-cream px-4 py-3 text-sm text-bark placeholder:text-bark/40 focus:border-moss focus:outline-none"
+              />
+              <input
+                type="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                maxLength={80}
+                placeholder="e.g. dill, strawberries, more akvavit…"
+                aria-label="Grocery item"
+                required
+                className="w-full rounded-xl border border-bark/15 bg-cream px-4 py-3 text-sm text-bark placeholder:text-bark/40 focus:border-moss focus:outline-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="rounded-xl bg-bark px-6 py-3 text-sm font-semibold text-cream transition hover:bg-moss"
+            >
+              Add to list
+            </button>
+          </div>
+          <p className="mt-3 text-xs text-bark/55">
+            Saved on this device. Share the link with the gang so everyone can add their own.
+          </p>
+        </form>
+
+        <ul className="mt-8 space-y-2">
+          {items.length === 0 && hydrated && (
+            <li className="rounded-xl border border-dashed border-cream/30 px-5 py-6 text-center text-sm italic text-cream/70">
+              Nothing on the list yet — start with the snaps.
+            </li>
+          )}
+          {items.map((it) => (
+            <li
+              key={it.id}
+              className="flex items-center justify-between gap-4 rounded-xl bg-cream/10 px-5 py-4 backdrop-blur-sm"
+            >
+              <div className="min-w-0">
+                <p className="truncate font-display text-lg text-cream">{it.text}</p>
+                <p className="mt-0.5 text-xs uppercase tracking-wider text-cream/60">
+                  — {it.author}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => removeItem(it.id)}
+                aria-label={`Remove ${it.text}`}
+                className="rounded-full border border-cream/30 px-3 py-1 text-xs text-cream/80 transition hover:border-cream hover:text-cream"
+              >
+                Remove
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-12 text-center">
+          <a
+            href="#top"
+            className="inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
+          >
+            Back to the top
+          </a>
+        </div>
       </div>
     </section>
   );
