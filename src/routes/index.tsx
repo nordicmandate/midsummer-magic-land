@@ -34,8 +34,9 @@ function Index() {
       <Details />
       <Travel />
       <Hiking />
+      <Bar />
       <Packing />
-      <Grocery />
+      <GroceryList />
       <Footer />
     </div>
   );
@@ -45,8 +46,8 @@ function Nav() {
   const links = [
     { href: "#details", label: "Details" },
     { href: "#travel", label: "Travel" },
-    { href: "#hiking", label: "Hiking" },
-    { href: "#packing", label: "Packing" },
+    { href: "#bar", label: "The Bar" },
+    { href: "#list", label: "Grocery list" },
   ];
   return (
     <header className="absolute top-0 left-0 right-0 z-20">
