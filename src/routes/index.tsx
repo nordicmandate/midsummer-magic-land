@@ -1,29 +1,343 @@
 import { createFileRoute } from "@tanstack/react-router";
+import heroImg from "@/assets/hero-aland.jpg";
+import poleImg from "@/assets/midsummer-pole.jpg";
+import cottageImg from "@/assets/summer-cottage.jpg";
+import trailImg from "@/assets/hiking-trail.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Midsummer 2026 · Åland Islands" },
+      {
+        name: "description",
+        content:
+          "A long Nordic weekend on the Åland Islands — 19–21 June 2026. Travel info, hiking trail, packing list and grocery wishes for the gang.",
+      },
+      { property: "og:title", content: "Midsummer 2026 · Åland Islands" },
+      {
+        property: "og:description",
+        content: "Three days of midsummer magic on the Åland archipelago.",
+      },
+      { property: "og:image", content: heroImg },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <Nav />
+      <Hero />
+      <Details />
+      <Travel />
+      <Hiking />
+      <Packing />
+      <Grocery />
+      <Footer />
     </div>
+  );
+}
+
+function Nav() {
+  const links = [
+    { href: "#details", label: "Details" },
+    { href: "#travel", label: "Travel" },
+    { href: "#hiking", label: "Hiking" },
+    { href: "#packing", label: "Packing" },
+  ];
+  return (
+    <header className="absolute top-0 left-0 right-0 z-20">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 md:px-10">
+        <a href="#top" className="font-display text-lg text-cream tracking-wide">
+          Knackilandia
+          <span className="ml-2 text-cream/70">·</span>
+          <span className="ml-2 text-sm text-cream/80">MMXXVI</span>
+        </a>
+        <nav className="hidden gap-8 md:flex">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-sm text-cream/85 transition hover:text-cream"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative isolate min-h-[100svh] overflow-hidden">
+      <img
+        src={heroImg}
+        alt="Granite shores and wildflower meadow on the Åland Islands at golden hour"
+        width={1920}
+        height={1080}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/20 to-bark/70" />
+
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-20 pt-32 md:px-10 md:pb-28">
+        <div className="max-w-3xl">
+          <p className="eyebrow text-mist">19 — 21 June 2026 · Eckerö, Åland</p>
+          <h1 className="mt-5 text-5xl leading-[1.05] text-cream md:text-7xl lg:text-[5.5rem]">
+            A midsummer on the archipelago,
+            <em className="block font-normal italic text-mist">just for us.</em>
+          </h1>
+          <p className="mt-6 max-w-xl text-base text-cream/85 md:text-lg">
+            Three slow days of long light, cold swims, warm sauna and the kind of
+            evenings that don't really end. Welcome to Knackilandia.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a
+              href="#travel"
+              className="rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
+            >
+              How to get there
+            </a>
+            <a
+              href="#details"
+              className="rounded-full border border-cream/40 px-7 py-3 text-sm font-semibold text-cream transition hover:bg-cream/10"
+            >
+              The plan
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Details() {
+  const items = [
+    { label: "When", value: "19 — 21 June", sub: "Friday to Sunday" },
+    { label: "Where", value: "Eckerö", sub: "Åland Islands, Finland" },
+    { label: "Basecamp", value: "Bodegan Gastro Pub", sub: "& the summer place" },
+    { label: "Vibe", value: "Slow & sun-soaked", sub: "Nordic nature, no rush" },
+  ];
+  return (
+    <section id="details" className="relative bg-cream py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-16">
+          <div className="md:col-span-5">
+            <p className="eyebrow">The weekend</p>
+            <h2 className="mt-4 text-4xl text-bark md:text-5xl">
+              A small gathering, a wide horizon.
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+              We're heading back to the summer place for the longest weekend of the
+              year. Expect bare feet on warm granite, herring at midnight, and the
+              sun barely setting before it rises again.
+            </p>
+          </div>
+          <dl className="grid gap-px overflow-hidden rounded-2xl bg-border md:col-span-7 md:grid-cols-2">
+            {items.map((i) => (
+              <div key={i.label} className="bg-card p-8">
+                <dt className="eyebrow">{i.label}</dt>
+                <dd className="mt-3 font-display text-2xl text-bark">{i.value}</dd>
+                <p className="mt-1 text-sm text-muted-foreground">{i.sub}</p>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Travel() {
+  return (
+    <section id="travel" className="relative overflow-hidden bg-mist">
+      <div className="mx-auto grid max-w-7xl gap-0 md:grid-cols-2">
+        <div className="relative min-h-[420px] md:min-h-[640px]">
+          <img
+            src={cottageImg}
+            alt="Red wooden Åland summer cottage by the sea"
+            loading="lazy"
+            width={1600}
+            height={1100}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+        <div className="px-6 py-20 md:px-14 md:py-28">
+          <p className="eyebrow">Getting there</p>
+          <h2 className="mt-4 text-4xl text-bark md:text-5xl">
+            Grisslehamn to Eckerö.
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-bark/80 md:text-lg">
+            We're crossing the Sea of Åland on the Eckerö Line. Pick the ferry that
+            suits your Friday — and remember the duty-free shop on board.
+          </p>
+
+          <div className="mt-10 space-y-4">
+            <FerryOption
+              tag="Option 1"
+              time="10:00 — 13:00"
+              route="Grisslehamn → Eckerö"
+            />
+            <FerryOption
+              tag="Option 2"
+              time="15:00 — 18:00"
+              route="Grisslehamn → Eckerö"
+            />
+          </div>
+
+          <a
+            href="https://www.eckerolinjen.se/en"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-bark px-7 py-3 text-sm font-semibold text-cream transition hover:bg-moss"
+          >
+            Book your ferry
+            <span aria-hidden>→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FerryOption({ tag, time, route }: { tag: string; time: string; route: string }) {
+  return (
+    <div className="flex items-baseline justify-between gap-6 border-b border-bark/15 pb-4">
+      <div>
+        <p className="eyebrow">{tag}</p>
+        <p className="mt-1 font-display text-xl text-bark">{time}</p>
+      </div>
+      <p className="text-sm text-bark/70">{route}</p>
+    </div>
+  );
+}
+
+function Hiking() {
+  return (
+    <section id="hiking" className="relative isolate overflow-hidden">
+      <img
+        src={trailImg}
+        alt="Forest path on Åland leading toward the Baltic Sea"
+        loading="lazy"
+        width={1600}
+        height={1100}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-bark/80 via-bark/55 to-bark/30" />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-28 md:px-10 md:py-36">
+        <div className="max-w-xl text-cream">
+          <p className="eyebrow text-mist">The trail</p>
+          <h2 className="mt-4 text-4xl md:text-5xl">
+            Walk in, we'll meet you with the boat.
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-cream/85 md:text-lg">
+            From Bodegan, follow the path along the shoreline. It's an easy
+            stretch through pine forest and pink granite — call when you're close
+            and we'll pick you up from the rocks.
+          </p>
+          <a
+            href="https://www.google.com/maps/dir/60.2422315,19.5135643/60.2326237,19.5392815"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
+          >
+            Open route in Google Maps
+            <span aria-hidden>→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Packing() {
+  const items = [
+    { title: "Sheets & a towel", note: "If you can — linens are limited at the cottage." },
+    { title: "Bathing suit", note: "For the sea, the sauna, and the slightly-too-cold morning dip." },
+    { title: "A warm layer", note: "Evenings on the rocks get crisp, even in June." },
+    { title: "Duty-free from the ferry", note: "The most important item on the list." },
+  ];
+  return (
+    <section id="packing" className="relative bg-cream py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="grid gap-16 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <p className="eyebrow">Pack lightly</p>
+            <h2 className="mt-4 text-4xl text-bark md:text-5xl">
+              Bring less than you think.
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+              The summer place is cozy but compact. A small bag, the right layers,
+              and a willingness to share the sauna — that's all you really need.
+            </p>
+            <div className="mt-10 overflow-hidden rounded-2xl border border-border">
+              <img
+                src={poleImg}
+                alt="A birch midsummer pole dressed with leaves and wildflowers"
+                loading="lazy"
+                width={1280}
+                height={1280}
+                className="aspect-[4/3] w-full object-cover"
+              />
+            </div>
+          </div>
+
+          <ul className="space-y-4 md:col-span-7">
+            {items.map((it, idx) => (
+              <li
+                key={it.title}
+                className="group flex items-start gap-6 rounded-2xl border border-border bg-card p-6 transition hover:border-moss md:p-8"
+              >
+                <span className="mt-1 font-display text-2xl text-moss tabular-nums">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-2xl text-bark">{it.title}</h3>
+                  <p className="mt-2 text-base text-muted-foreground">{it.note}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Grocery() {
+  return (
+    <section id="grocery" className="relative bg-moss py-24 text-cream md:py-32">
+      <div className="mx-auto max-w-3xl px-6 text-center md:px-10">
+        <p className="eyebrow text-mist">Friday morning haul</p>
+        <h2 className="mt-4 text-4xl md:text-5xl">
+          Anything you can't midsummer without?
+        </h2>
+        <p className="mt-6 text-base leading-relaxed text-cream/90 md:text-lg">
+          We'll do the big grocery run on Friday morning. Drop your wishes in the
+          group chat — pickled herring, fresh strawberries, that one specific
+          cheese — and we'll make sure it's on the table.
+        </p>
+        <a
+          href="#top"
+          className="mt-10 inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
+        >
+          Back to the top
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border bg-cream py-10">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 text-sm text-muted-foreground md:flex-row md:px-10">
+        <p>Knackilandia · Midsummer 2026</p>
+        <p className="italic">Made with long light & cold water.</p>
+      </div>
+    </footer>
   );
 }
