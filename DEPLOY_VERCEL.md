@@ -12,6 +12,11 @@ This project is a TanStack Start app that can be deployed to Vercel directly fro
 6. Install Command: leave default (`npm install` / `bun install`).
 7. Click **Deploy**.
 
+8. In the Vercel Project dashboard, add `knackilandia.com` as a custom domain.
+
+9. Follow Vercel's DNS instructions and update your domain's A/CNAME records so that
+   `knackilandia.com` points to Vercel.
+
 Vercel automatically sets the `VERCEL=1` env var during builds, which switches
 `vite.config.ts` to the Nitro `vercel` preset and emits a `.vercel/output`
 bundle that Vercel knows how to serve (SSR + static assets).
