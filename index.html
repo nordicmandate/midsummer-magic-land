@@ -23,6 +23,19 @@
             const prodScript = document.createElement('script');
             prodScript.type = 'module';
             prodScript.src = './assets/index.js';
+            prodScript.onerror = async function () {
+              try {
+                // Fallback: fetch the script and import as blob (bypass MIME issues)
+                const resp = await fetch('./assets/index.js');
+                const text = await resp.text();
+                const blob = new Blob([text], { type: 'text/javascript' });
+                const blobUrl = URL.createObjectURL(blob);
+                await import(blobUrl);
+              } catch (err) {
+                console.error('Module fallback failed', err);
+              }
+            };
+
             document.body && document.body.appendChild(prodScript);
           } catch (e) {
             console.error('Asset injection failed', e);
