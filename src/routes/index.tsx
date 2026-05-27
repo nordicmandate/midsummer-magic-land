@@ -529,7 +529,7 @@ function Footer() {
   return (
     <footer className="border-t border-border bg-cream py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 text-sm text-muted-foreground md:flex-row md:px-10">
-        <p>Knackilandia · Midsummer 2026</p>
+        <p>Skogbergsholmen · Midsummer 2026</p>
         <p className="italic">Made with long light & cold water.</p>
       </div>
     </footer>
