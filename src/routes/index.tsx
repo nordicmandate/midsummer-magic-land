@@ -89,25 +89,26 @@ function Hero() {
         <div className="max-w-3xl">
           <p className="eyebrow text-mist">19 — 21 June 2026 · Eckerö, Åland</p>
           <h1 className="mt-5 text-5xl leading-[1.05] text-cream md:text-7xl lg:text-[5.5rem]">
-            A midsummer on the archipelago,
-            <em className="block font-normal italic text-mist">just for us.</em>
+            Schnapps, sea, and the longest day
+            <em className="block font-normal italic text-mist">of the year.</em>
           </h1>
           <p className="mt-6 max-w-xl text-base text-cream/85 md:text-lg">
-            Three slow days of long light, cold swims, warm sauna and the kind of
-            evenings that don't really end. Welcome to Knackilandia.
+            Three slow days on the archipelago, fuelled by ferry duty-free,
+            cold lagers in the sauna anteroom, and one too many toasts under a
+            sun that never quite sets.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
-              href="#travel"
+              href="#bar"
               className="rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
             >
-              How to get there
+              See the bar
             </a>
             <a
-              href="#details"
+              href="#list"
               className="rounded-full border border-cream/40 px-7 py-3 text-sm font-semibold text-cream transition hover:bg-cream/10"
             >
-              The plan
+              Add to the list
             </a>
           </div>
         </div>
