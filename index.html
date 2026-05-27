@@ -12,20 +12,39 @@
       (function () {
         const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
         if (isLocal) {
-          // Development loader: inject Vite client and local entry
+          // Development loader: inject Vite client immediately and defer dev entry until body exists
           try {
             const client = document.createElement('script');
             client.type = 'module';
             client.src = '/@vite/client';
             document.head && document.head.appendChild(client);
 
-            const devEntry = document.createElement('script');
-            devEntry.type = 'module';
-            devEntry.src = './src/main.tsx';
-            document.body && document.body.appendChild(devEntry);
+            const devEntrySrc = './src/main.tsx';
+            function injectDevEntry() {
+              try {
+                const devEntry = document.createElement('script');
+                devEntry.type = 'module';
+                devEntry.src = devEntrySrc;
+                document.body && document.body.appendChild(devEntry);
+              } catch (e) {}
+            }
+
+            if (document.readyState === 'loading') {
+              window.addEventListener('DOMContentLoaded', injectDevEntry);
+            } else {
+              injectDevEntry();
+            }
           } catch (e) {
             /* ignore */
           }
+          return;
+        }
+        // If a module entry script is already present (Vite dev or built asset), don't inject duplicates
+        if (
+          document.querySelector(
+            'script[type="module"][src^="/src/main.tsx"], script[type="module"][src$="/assets/index.js"], script[type="module"][src*="assets/index.js"]'
+          )
+        ) {
           return;
         }
 
@@ -65,6 +84,7 @@
         }
       })();
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </head>
   <body>
     <div id="root"></div>

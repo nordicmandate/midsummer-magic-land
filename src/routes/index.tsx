@@ -26,86 +26,18 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const SITE_PASSWORD = "midsommar2026";
-const GATE_KEY = "skogbergsholmen.gate.v1";
-
 function Index() {
   return (
-    <PasswordGate>
-      <div className="min-h-screen bg-background text-foreground">
-        <Nav />
-        <Hero />
-        <Details />
-        <Travel />
-        <Hiking />
-        <Bar />
-        <Packing />
-        <GroceryList />
-        <Footer />
-      </div>
-    </PasswordGate>
-  );
-}
-
-function PasswordGate({ children }: { children: React.ReactNode }) {
-  const [unlocked, setUnlocked] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [input, setInput] = useState("");
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(GATE_KEY) === "1") setUnlocked(true);
-    } catch {}
-    setReady(true);
-  }, []);
-
-  if (!ready) return null;
-  if (unlocked) return <>{children}</>;
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input.trim().toLowerCase() === SITE_PASSWORD) {
-      try {
-        localStorage.setItem(GATE_KEY, "1");
-      } catch {}
-      setUnlocked(true);
-    } else {
-      setError(true);
-    }
-  };
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-6">
-      <form
-        onSubmit={submit}
-        className="w-full max-w-sm rounded-2xl border border-cream/10 bg-cream/5 p-8 backdrop-blur"
-      >
-        <h1 className="font-display text-2xl text-cream mb-2">Skogbergsholmen</h1>
-        <p className="text-sm text-cream/70 mb-6">
-          Private gathering. Enter the password to continue.
-        </p>
-        <input
-          type="password"
-          autoFocus
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-            setError(false);
-          }}
-          placeholder="Password"
-          className="w-full rounded-lg border border-cream/15 bg-background/40 px-4 py-3 text-cream placeholder:text-cream/40 outline-none focus:border-cream/40"
-        />
-        {error && (
-          <p className="mt-3 text-sm text-red-300">Wrong password — try again.</p>
-        )}
-        <button
-          type="submit"
-          className="mt-5 w-full rounded-lg bg-cream px-4 py-3 text-sm font-medium text-background transition hover:bg-cream/90"
-        >
-          Enter
-        </button>
-      </form>
+    <div className="min-h-screen bg-background text-foreground">
+      <Nav />
+      <Hero />
+      <Details />
+      <Travel />
+      <Hiking />
+      <Bar />
+      <Packing />
+      <GroceryList />
+      <Footer />
     </div>
   );
 }
