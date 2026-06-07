@@ -134,8 +134,9 @@ function Details() {
               A small gathering, a wide horizon.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
-              Three slow days on the archipelago — bare feet on warm granite, herring
-              at midnight, and the sun barely setting before it rises again.
+              Three slow days with the crew — cold beers on the rocks, herring
+              at midnight, and the sun barely setting before we pour the next
+              round.
             </p>
           </div>
           <dl className="grid gap-px overflow-hidden rounded-2xl bg-border md:col-span-7 md:grid-cols-2">
@@ -173,20 +174,20 @@ function Travel() {
             Grisslehamn to Eckerö.
           </h2>
           <p className="mt-5 text-base leading-relaxed text-bark/80 md:text-lg">
-            Most of you are taking the first ferry across the Sea of Åland on the
-            Eckerö Line. Remember the duty-free shop on board — it's half the
-            reason we do this.
+              Most of you are taking the first ferry across the Sea of Åland on
+              the Eckerö Line. Remember the duty-free shop on board — stock up
+              on the way over.
           </p>
 
           <div className="mt-10 space-y-4">
             <FerryOption
               tag="First ferry"
-              time="Morning crossing"
+              time="10:00 — 13:00"
               route="Grisslehamn → Eckerö"
             />
             <FerryOption
               tag="Backup"
-              time="Afternoon crossing"
+              time="15:00 — 18:00"
               route="Grisslehamn → Eckerö"
             />
           </div>
@@ -234,9 +235,8 @@ function DutyFree() {
               The shopping list, per person.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
-              The "Alternativ 1" allowance is what we're working with. Aim for one
-              bottle of Skåne Akvavit, a couple of cases of Mariestads and a box
-              wine — that's the whole weekend sorted.
+              These are the duty-free limits per person entering Åland. Take
+              this as the toll amount you can bring — no need to max it out.
             </p>
           </div>
           <dl className="grid gap-px overflow-hidden rounded-2xl bg-border md:col-span-7">
