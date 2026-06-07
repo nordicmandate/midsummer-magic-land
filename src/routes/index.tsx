@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-aland.jpg";
 import poleImg from "@/assets/midsummer-pole.jpg";
 import cottageImg from "@/assets/summer-cottage.jpg";
@@ -33,6 +34,7 @@ function Index() {
       <Hero />
       <Details />
       <Travel />
+      <DutyFree />
       <Hiking />
       <Bar />
       <Packing />
@@ -89,13 +91,11 @@ function Hero() {
         <div className="max-w-3xl">
           <p className="eyebrow text-mist">19 — 21 June 2026 · Eckerö, Åland</p>
           <h1 className="mt-5 text-5xl leading-[1.05] text-cream md:text-7xl lg:text-[5.5rem]">
-            Schnapps, sea, and the longest day
-            <em className="block font-normal italic text-mist">of the year.</em>
+            Due to the tremendous success last year
+            <em className="block font-normal italic text-mist">we're doing it again — this time on Åland.</em>
           </h1>
           <p className="mt-6 max-w-xl text-base text-cream/85 md:text-lg">
-            Three slow days on the archipelago, fuelled by ferry duty-free,
-            cold lagers in the sauna anteroom, and one too many toasts under a
-            sun that never quite sets.
+            Expect a weekend of drinking, sauna, boating and shit-talking as usual.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
@@ -122,7 +122,7 @@ function Details() {
     { label: "When", value: "19 — 21 June", sub: "Friday to Sunday" },
     { label: "Where", value: "Eckerö", sub: "Åland Islands, Finland" },
     { label: "Basecamp", value: "Skogbergsholmen", sub: "Eckerö, Åland" },
-    { label: "Vibe", value: "Slow & sun-soaked", sub: "Nordic nature, no rush" },
+    { label: "Vibe", value: "Drinking & no stress", sub: "Sauna, sea, schnapps" },
   ];
   return (
     <section id="details" className="relative bg-cream py-24 md:py-32">
@@ -134,9 +134,8 @@ function Details() {
               A small gathering, a wide horizon.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
-              We're heading back to the summer place for the longest weekend of the
-              year. Expect bare feet on warm granite, herring at midnight, and the
-              sun barely setting before it rises again.
+              Three slow days on the archipelago — bare feet on warm granite, herring
+              at midnight, and the sun barely setting before it rises again.
             </p>
           </div>
           <dl className="grid gap-px overflow-hidden rounded-2xl bg-border md:col-span-7 md:grid-cols-2">
@@ -174,19 +173,20 @@ function Travel() {
             Grisslehamn to Eckerö.
           </h2>
           <p className="mt-5 text-base leading-relaxed text-bark/80 md:text-lg">
-            We're crossing the Sea of Åland on the Eckerö Line. Pick the ferry that
-            suits your Friday — and remember the duty-free shop on board.
+            Most of you are taking the first ferry across the Sea of Åland on the
+            Eckerö Line. Remember the duty-free shop on board — it's half the
+            reason we do this.
           </p>
 
           <div className="mt-10 space-y-4">
             <FerryOption
-              tag="Option 1"
-              time="10:00 — 13:00"
+              tag="First ferry"
+              time="Morning crossing"
               route="Grisslehamn → Eckerö"
             />
             <FerryOption
-              tag="Option 2"
-              time="15:00 — 18:00"
+              tag="Backup"
+              time="Afternoon crossing"
               route="Grisslehamn → Eckerö"
             />
           </div>
@@ -218,6 +218,44 @@ function FerryOption({ tag, time, route }: { tag: string; time: string; route: s
   );
 }
 
+function DutyFree() {
+  const allowances = [
+    { label: "Spirits over 22%", value: "1 litre", sub: "→ one bottle of Skåne Akvavit" },
+    { label: "Wine up to 15%", value: "4 litres", sub: "→ a box of wine does the job" },
+    { label: "Beer", value: "16 litres", sub: "→ a couple of cases of Mariestads" },
+  ];
+  return (
+    <section id="dutyfree" className="relative bg-cream py-24 md:py-28">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-16">
+          <div className="md:col-span-5">
+            <p className="eyebrow">Duty-free to Åland</p>
+            <h2 className="mt-4 text-4xl text-bark md:text-5xl">
+              The shopping list, per person.
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+              The "Alternativ 1" allowance is what we're working with. Aim for one
+              bottle of Skåne Akvavit, a couple of cases of Mariestads and a box
+              wine — that's the whole weekend sorted.
+            </p>
+          </div>
+          <dl className="grid gap-px overflow-hidden rounded-2xl bg-border md:col-span-7">
+            {allowances.map((a) => (
+              <div key={a.label} className="flex items-baseline justify-between gap-6 bg-card p-8">
+                <div>
+                  <dt className="eyebrow">{a.label}</dt>
+                  <p className="mt-2 text-sm text-muted-foreground">{a.sub}</p>
+                </div>
+                <dd className="font-display text-2xl text-bark whitespace-nowrap">{a.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Hiking() {
   return (
     <section id="hiking" className="relative isolate overflow-hidden">
@@ -232,17 +270,17 @@ function Hiking() {
       <div className="absolute inset-0 bg-gradient-to-r from-bark/80 via-bark/55 to-bark/30" />
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-28 md:px-10 md:py-36">
         <div className="max-w-xl text-cream">
-          <p className="eyebrow text-mist">The trail</p>
+          <p className="eyebrow text-mist">From the ferry</p>
           <h2 className="mt-4 text-4xl md:text-5xl">
-            Walk in, we'll meet you with the boat.
+            Take the forest path — we'll pick you up.
           </h2>
           <p className="mt-5 text-base leading-relaxed text-cream/85 md:text-lg">
-            From the cottage at Skogbergsholmen, follow the path along the shoreline.
-            It's an easy stretch through pine forest and pink granite — call when you're close
-            and we'll pick you up from the rocks.
+            From the ferry terminal in Berghamn, follow the forest path as marked
+            on the map. We'll meet you at Bodegan with the boat. Walk takes about
+            15 minutes.
           </p>
           <a
-            href="https://www.google.com/maps/dir/60.2422315,19.5135643/60.2326237,19.5392815"
+            href="https://www.google.com/maps/dir/Ecker%C3%B6linjen+%7C+Berghamn,+Berghamn+22270,+%C3%85land+Islands/60.2326237,19.5392815/@60.2286658,19.5264418,2300m/data=!3m1!1e3!4m9!4m8!1m5!1m1!1s0x468abd533fb99e33:0x4c70a0cafee77f3e!2m2!1d19.5370964!2d60.2252967!1m0!3e2"
             target="_blank"
             rel="noreferrer"
             className="mt-10 inline-flex items-center gap-2 rounded-full bg-cream px-7 py-3 text-sm font-semibold text-bark transition hover:bg-mist"
@@ -314,7 +352,7 @@ function Bar() {
   const pours = [
     {
       name: "Midsummer schnapps",
-      detail: "Akvavit, ice-cold, served in tiny glasses with a song before each shot.",
+      detail: "Skåne Akvavit, ice-cold, served in tiny glasses with a song before each shot.",
       tag: "Tradition",
     },
     {
@@ -323,13 +361,13 @@ function Bar() {
       tag: "Sundowner",
     },
     {
-      name: "Cold Åland lager",
-      detail: "Stallhagen on tap-temperature, straight from the sea-chilled crate.",
+      name: "Cold lager",
+      detail: "Mariestads or Eversti Sandels, cold — straight from the sea-chilled crate.",
       tag: "All day",
     },
     {
-      name: "Strawberry spritz",
-      detail: "Local strawberries, dry white, a splash of soda. For the slower hours.",
+      name: "Finnish Bål",
+      detail: "Vodka with mixer. The slow-sipper for the long afternoons.",
       tag: "Afternoon",
     },
     {
@@ -338,9 +376,9 @@ function Bar() {
       tag: "Sacred",
     },
     {
-      name: "Nightcap whisky",
-      detail: "On the rocks, on the rocks. Bring your favourite bottle.",
-      tag: "After midnight",
+      name: "Minttu",
+      detail: "Cold or lukewarm, your call. The nightcap that signs off the day.",
+      tag: "Nightcap",
     },
   ];
   return (
@@ -366,10 +404,6 @@ function Bar() {
             </li>
           ))}
         </ul>
-
-        <p className="mt-12 text-sm italic text-cream/60">
-          Drink water between rounds. The sun won't set, but you might.
-        </p>
       </div>
     </section>
   );
@@ -379,57 +413,76 @@ type ListItem = {
   id: string;
   text: string;
   author: string;
-  createdAt: number;
+  created_at: string;
 };
 
-const STORAGE_KEY = "skogbergsholmen.grocery.v1";
+const NAME_KEY = "skogbergsholmen.grocery.name";
 
 function GroceryList() {
   const [items, setItems] = useState<ListItem[]>([]);
   const [text, setText] = useState("");
   const [author, setAuthor] = useState("");
-  const [hydrated, setHydrated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setItems(JSON.parse(raw));
-      const savedName = localStorage.getItem(STORAGE_KEY + ".name");
+      const savedName = localStorage.getItem(NAME_KEY);
       if (savedName) setAuthor(savedName);
     } catch {
       // ignore
     }
-    setHydrated(true);
+
+    let mounted = true;
+
+    (async () => {
+      const { data } = await supabase
+        .from("grocery_items")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (mounted && data) setItems(data as ListItem[]);
+      if (mounted) setLoading(false);
+    })();
+
+    const channel = supabase
+      .channel("grocery_items_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "grocery_items" },
+        (payload) => {
+          if (payload.eventType === "INSERT") {
+            setItems((prev) => [payload.new as ListItem, ...prev.filter((i) => i.id !== (payload.new as ListItem).id)]);
+          } else if (payload.eventType === "DELETE") {
+            setItems((prev) => prev.filter((i) => i.id !== (payload.old as ListItem).id));
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      mounted = false;
+      supabase.removeChannel(channel);
+    };
   }, []);
 
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch {
-      // ignore
-    }
-  }, [items, hydrated]);
-
-  function addItem(e: React.FormEvent) {
+  async function addItem(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = text.trim().slice(0, 80);
     const who = author.trim().slice(0, 24) || "Anonymous";
     if (!trimmed) return;
-    setItems((prev) => [
-      { id: crypto.randomUUID(), text: trimmed, author: who, createdAt: Date.now() },
-      ...prev,
-    ]);
-    setText("");
+
     try {
-      localStorage.setItem(STORAGE_KEY + ".name", who);
+      localStorage.setItem(NAME_KEY, who);
     } catch {
       // ignore
     }
+    setText("");
+
+    await supabase.from("grocery_items").insert({ text: trimmed, author: who });
   }
 
-  function removeItem(id: string) {
+  async function removeItem(id: string) {
     setItems((prev) => prev.filter((i) => i.id !== id));
+    await supabase.from("grocery_items").delete().eq("id", id);
   }
 
   return (
@@ -441,8 +494,8 @@ function GroceryList() {
         </h2>
         <p className="mt-6 text-base leading-relaxed text-cream/90 md:text-lg">
           Pickled herring, fresh strawberries, that one specific cheese, an
-          extra bottle of akvavit — drop it on the list and we'll grab it on
-          the Friday run.
+          extra bottle of akvavit — drop it on the shared list and we'll grab it
+          on the Friday run. Everyone sees the same list, live.
         </p>
 
         <form
@@ -479,12 +532,12 @@ function GroceryList() {
             </button>
           </div>
           <p className="mt-3 text-xs text-bark/55">
-            Saved on this device. Share the link with the gang so everyone can add their own.
+            Shared with everyone — share the link and the gang can add their own.
           </p>
         </form>
 
         <ul className="mt-8 space-y-2">
-          {items.length === 0 && hydrated && (
+          {!loading && items.length === 0 && (
             <li className="rounded-xl border border-dashed border-cream/30 px-5 py-6 text-center text-sm italic text-cream/70">
               Nothing on the list yet — start with the snaps.
             </li>
